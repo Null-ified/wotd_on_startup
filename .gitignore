@@ -1,0 +1,11 @@
+#files
+.env
+.txt
+.MD
+#exclusions 
+!requirements.txt
+!README.MD
+
+#venvs
+env/
+venv/
