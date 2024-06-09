@@ -20,8 +20,7 @@ def Choices():
         else:
             print("Invalid input. Please enter either A, B, or C.")
 
-        
-
+       
 def siteResponseObjGenerator(choice:chr):
     match choice:
         case 'A': 
@@ -38,14 +37,11 @@ def siteResponseObjGenerator(choice:chr):
             return r_Dictionary, "Dictionary"
         
 
-
-
 #Refactor type checks eventually
 def Request_Debug(requestobj:requests.Response):    
     print("==========================")
     print(f"REQUEST CONTENT DEBUG: {requestobj.content}")
     print("==========================")
-
 
 def StatusCheck(requestobj:requests.Response):
     if (requestobj.status_code != 200): 
@@ -64,8 +60,7 @@ match(rObj_ChosenSite[1]):
     case "Dictionary.com":
         print("Run Dictionary.com Function")
     case _: 
-        raise Exception("[Err] Default case")
-
+        raise Exception("[Err] Default case some how")
 
 
 #print out all the choices the user can choose 
