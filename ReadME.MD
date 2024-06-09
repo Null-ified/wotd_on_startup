@@ -1,10 +1,10 @@
 ## Goals
 - Grab data from three site's (Oxford, Webster, Dictionary)
 - Give def of word and provide the following for each site
-    [] examples with word from site
-        [] Google search for more examples or just generate yourself
-    [] Noun, verb, Adj
-    [] Synonyms, antonym
+    [ ]Examples with word from site
+        [ ]Google search for more examples or just generate yourself
+    []Noun, verb, Adj
+    []Synonyms, antonym
         [] Hyperlinks to Synonyms
         [] Hyperlinks to antonyms 
     [] Fetching past word of the days 
