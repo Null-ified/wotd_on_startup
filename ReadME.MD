@@ -12,6 +12,6 @@
     isn't intrusive
     -[ ] Find images related to the words and display them in gui?
 
-    -Executable
+    - Executable
     - [ ] Settings menu with startup options 
     - [ ] Light dark mode 
