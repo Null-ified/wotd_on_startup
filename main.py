@@ -2,6 +2,9 @@ from bs4 import BeautifulSoup
 import re
 import requests
 
+#All of this will get refactored eventually I swear
+
+
 #Printing out choices and error checking
 def Choices():
     print("Please select one of the following sites to know the word of the day of:")
@@ -37,6 +40,11 @@ def siteResponseObjGenerator(choice:chr):
             return r_Dictionary, "Dictionary"
         
 
+def webster_Site(r_obj:requests.Response):
+    ''' Uses Soup to decode -> Reg Expression + Soup to find attributes with WOTD
+        -> Jump to proper paper to extract rest of the info.'''    
+    
+
 #Refactor type checks eventually
 def Request_Debug(requestobj:requests.Response):    
     print("==========================")
@@ -50,7 +58,9 @@ def StatusCheck(requestobj:requests.Response):
         print(f"Webster status code: {requestobj.status_code}")
 
 #rObj_ChosenSite[1] for crawling on specific site 
+#main
 rObj_ChosenSite = siteResponseObjGenerator(Choices())
+
 
 match(rObj_ChosenSite[1]):
     case "Webster":
