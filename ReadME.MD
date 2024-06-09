@@ -10,8 +10,8 @@
     - [ ] Fetching past word of the days 
 - On boot, display the words from all three sites in a nice gui that
     isn't intrusive
-    -[ ] Find images related to the words and display them in gui?
+    - [ ] Find images related to the words and display them in gui?
 
-    - Executable
+- Executable
     - [ ] Settings menu with startup options 
     - [ ] Light dark mode 
