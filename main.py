@@ -53,27 +53,33 @@ def webster_WOTD(r_obj:requests.Response):
     print("[DEBUG]: Printing out matched tags for word name + other details")
     for soup in web_Soup.find_all("div", class_=re.compile('(word)') ):
         print(soup['class'])  
+
+    print("[DEBUG]: MORE DEBUGGING")
+    for soup in web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') ):
+        print(soup.p)
     
-    #Nonetype not subscriptable, need fix
+    def cull_tags(soup_string: str):
+        # Extract text content without tags
+        clean_text = soup_string.get_text(separator=' ',strip=True)
+        clean_text = re.sub(r'//', '', clean_text)
+        return clean_text
+
+    #Need access word-header
     wotd_info = {
-        'name': web_Soup.find_all("div", class_=re.compile('(word)'))[0].contents,
-        'word type': web_Soup.find_all("div", class_=re.compile('(word)'))[2].contents[0].string,
-        'syllabes': web_Soup.find_all("div", class_=re.compile('(word)'))[2].contents[1].string,
+        'name': web_Soup.find_all("h2", class_=re.compile('(word)'))[0].string,
+        'word type': web_Soup.find_all("div", class_=re.compile('(word)'))[2].contents[1].string,
+        'syllabes': web_Soup.find_all("span", class_=re.compile('(word)'))[0].string,
         'definition': web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)'))[0].p.string,
-        'example': web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') )[1].p.string,
+        'example': web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') )[0].p.find_next("p"),
 }
-    print(f"Name of WOTD: {wotd_info['name']}")
-
-''' #Word type 
-print(f"Word: {web_Soup.find_all("div", class_=re.compile('(word)'))[2].content[0].string}\n")
-
-#prints def
-print(f"Definition: {web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)'))[0].p.string}\n")
-
-#prints examples
-print(f"Example of {web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') )[1].p.string}")
-
-'''
+    print(f"""
+          Name of WOTD: {wotd_info['name']}
+          Word type: {wotd_info['word type']}
+          Syllabes: {wotd_info['syllabes']} 
+          Definition: {wotd_info['definition']}
+          Example: {cull_tags(wotd_info['example'])}
+          """
+          )
 
 #Refactor type checks eventually
 def Request_Debug(requestobj:requests.Response):    
