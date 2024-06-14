@@ -6,6 +6,9 @@
 !requirements.txt
 !README.MD
 
+#cache 
+__pycache__/
+
 #venvs
 env/
 venv/

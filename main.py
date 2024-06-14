@@ -1,9 +1,9 @@
 from bs4 import BeautifulSoup
 import re
 import requests
-
+import Webster
 #All of this will get refactored eventually I swear
-
+#need to solve circular import
 
 #Printing out choices and error checking
 def Choices():
@@ -64,32 +64,6 @@ def wotd_info(name:BeautifulSoup, word_type:BeautifulSoup, syllabes:BeautifulSou
           )
 
 
-def webster_WOTD(r_obj:requests.Response):
-    ''' Soup to decode -> Reg Expression + Soup to find attributes with WOTD
-        -> Jump to proper paper to extract rest of the info.'''    
-    web_Soup = BeautifulSoup(r_obj.text, "html5lib")
-
-    # Filter for div tag with class attribute that has wotd and look at its children's element
-    print("[DEBUG]: Printing out matched tags for word def")
-    for soup in web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') ):
-        print(soup['class'])    
-    
-    #wotd   
-    print("[DEBUG]: Printing out matched tags for word name + other details")
-    for soup in web_Soup.find_all("div", class_=re.compile('(word)') ):
-        print(soup['class'])  
-
-    print("[DEBUG]: MORE DEBUGGING")
-    for soup in web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') ):
-        print(soup.p)
-
-
-    wotd_info(name = web_Soup.find_all("h2", class_=re.compile('(word)'))[0].string,
-                 word_type = web_Soup.find_all("div", class_=re.compile('(word)'))[2].contents[1].string,
-                 syllabes = web_Soup.find_all("span", class_=re.compile('(word)'))[0].string,
-                 definition = web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)'))[0].p.string,
-                 example = web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') )[0].p.find_next("p"),
-)
 
 #main
 def main(): 
@@ -99,7 +73,7 @@ def main():
     match(rObj_ChosenSite[1]):
         case "Webster":
             print("Run Webster Function")
-            webster_WOTD(rObj_ChosenSite[0])
+            Webster.webster_WOTD(rObj_ChosenSite[0])
         case "Oxford":
             print("Run Oxford Function")
         case "Dictionary.com":
