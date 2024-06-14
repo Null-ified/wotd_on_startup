@@ -44,6 +44,7 @@ def webster_WOTD(r_obj:requests.Response):
     ''' Soup to decode -> Reg Expression + Soup to find attributes with WOTD
         -> Jump to proper paper to extract rest of the info.'''    
     web_Soup = BeautifulSoup(r_obj.text, "html5lib")
+
     # Filter for div tag with class attribute that has wotd and look at its children's element
     print("[DEBUG]: Printing out matched tags for word def")
     for soup in web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') ):
@@ -59,12 +60,11 @@ def webster_WOTD(r_obj:requests.Response):
         print(soup.p)
     
     def cull_tags(soup_string: str):
-        # Extract text content without tags
+        # Extracting text w/o tags
         clean_text = soup_string.get_text(separator=' ',strip=True)
         clean_text = re.sub(r'//', '', clean_text)
         return clean_text
 
-    #Need access word-header
     wotd_info = {
         'name': web_Soup.find_all("h2", class_=re.compile('(word)'))[0].string,
         'word type': web_Soup.find_all("div", class_=re.compile('(word)'))[2].contents[1].string,
@@ -81,19 +81,9 @@ def webster_WOTD(r_obj:requests.Response):
           """
           )
 
-#Refactor type checks eventually
-def Request_Debug(requestobj:requests.Response):    
-    print("==========================")
-    print(f"REQUEST CONTENT DEBUG: {requestobj.content}")
-    print("==========================")
-
-def StatusCheck(requestobj:requests.Response):
-    if (requestobj.status_code != 200): 
-        print(f"Webster status code: {requestobj.status_code}")
-    else:
-        print(f"Webster status code: {requestobj.status_code}")
 
 #rObj_ChosenSite[1](Tuple) for crawling on specific site 
+
 #main
 rObj_ChosenSite = siteResponseObjGenerator(Choices())
 

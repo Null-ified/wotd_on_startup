@@ -1,5 +1,10 @@
+The code looks disgusting i know, will refactor and organize stuff later. 
+
 ## Goals
 - Grab data from three site's (Oxford, Webster, Dictionary)
+    - [] Webster
+    - [ ] Oxford
+    - [ ] Dictionary 
 - Give def of word and provide the following for each site
     - [ ] Examples with word from site
         - [ ] Google search for more examples or just generate yourself
@@ -14,4 +19,4 @@
 
 - Executable
     - [ ] Settings menu with startup options 
-    - [ ] Light dark mode 
+    - [ ] Dark mode 
