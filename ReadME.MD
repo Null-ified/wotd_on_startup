@@ -6,7 +6,7 @@
     - [ ] Noun, verb, Adj
     - [ ] Synonyms, antonym
         - [ ] Hyperlinks to Synonyms
-        -[ ] Hyperlinks to antonyms 
+        - [ ] Hyperlinks to antonyms 
     - [ ] Fetching past word of the days 
 - On boot, display the words from all three sites in a nice gui that
     isn't intrusive

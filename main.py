@@ -40,10 +40,40 @@ def siteResponseObjGenerator(choice:chr):
             return r_Dictionary, "Dictionary"
         
 
-def webster_Site(r_obj:requests.Response):
-    ''' Uses Soup to decode -> Reg Expression + Soup to find attributes with WOTD
+def webster_WOTD(r_obj:requests.Response):
+    ''' Soup to decode -> Reg Expression + Soup to find attributes with WOTD
         -> Jump to proper paper to extract rest of the info.'''    
+    web_Soup = BeautifulSoup(r_obj.text, "html5lib")
+    # Filter for div tag with class attribute that has wotd and look at its children's element
+    print("[DEBUG]: Printing out matched tags for word def")
+    for soup in web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') ):
+        print(soup['class'])    
     
+    #wotd   
+    print("[DEBUG]: Printing out matched tags for word name + other details")
+    for soup in web_Soup.find_all("div", class_=re.compile('(word)') ):
+        print(soup['class'])  
+    
+    #Nonetype not subscriptable, need fix
+    wotd_info = {
+        'name': web_Soup.find_all("div", class_=re.compile('(word)'))[0].contents,
+        'word type': web_Soup.find_all("div", class_=re.compile('(word)'))[2].contents[0].string,
+        'syllabes': web_Soup.find_all("div", class_=re.compile('(word)'))[2].contents[1].string,
+        'definition': web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)'))[0].p.string,
+        'example': web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') )[1].p.string,
+}
+    print(f"Name of WOTD: {wotd_info['name']}")
+
+''' #Word type 
+print(f"Word: {web_Soup.find_all("div", class_=re.compile('(word)'))[2].content[0].string}\n")
+
+#prints def
+print(f"Definition: {web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)'))[0].p.string}\n")
+
+#prints examples
+print(f"Example of {web_Soup.find_all("div", class_=re.compile('(wotd|word of the day|definition)') )[1].p.string}")
+
+'''
 
 #Refactor type checks eventually
 def Request_Debug(requestobj:requests.Response):    
@@ -57,7 +87,7 @@ def StatusCheck(requestobj:requests.Response):
     else:
         print(f"Webster status code: {requestobj.status_code}")
 
-#rObj_ChosenSite[1] for crawling on specific site 
+#rObj_ChosenSite[1](Tuple) for crawling on specific site 
 #main
 rObj_ChosenSite = siteResponseObjGenerator(Choices())
 
@@ -65,32 +95,11 @@ rObj_ChosenSite = siteResponseObjGenerator(Choices())
 match(rObj_ChosenSite[1]):
     case "Webster":
         print("Run Webster Function")
+        webster_WOTD(rObj_ChosenSite[0])
     case "Oxford":
         print("Run Oxford Function")
     case "Dictionary.com":
         print("Run Dictionary.com Function")
     case _: 
-        raise Exception("[Err] Default case some how")
+        raise Exception("[Err] Default case was reached.")
 
-
-#print out all the choices the user can choose 
-
-
-
-
-
-
-
-
-#Need a regular expression to only parse the word between > < When > is found and
-#matches stop after meet <
-#print(str(word_of_the_day_Webster[0]))
-
-
-
-
-#r_webster_WOTD_page = requests.get("https://www.merriam-webster.com/dictionary/" + word_of_the_day_Webster)
-#soup_webster_WOTD_decoded = BeautifulSoup(r_webster_WOTD_page.text, "html5lib") 
-
-#
-#print(soup_webster_WOTD_decoded.findAll("span", "dtText"))
