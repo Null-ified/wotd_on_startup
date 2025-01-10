@@ -1,9 +1,11 @@
 from bs4 import BeautifulSoup
 import re
 import requests
-import Site_Webster 
+import Webster
+import Dictionary
 
 
+#Choices rn is for debug. On startup,
 def Choices():
     print("Please select one of the following sites to know the word of the day of:")
     print("[] Webster Dictionary | A ")
@@ -22,15 +24,15 @@ def Choices():
         else:
             print("Invalid input. Please enter either A, B, C, F")
 
-
-def request_connection_Execptions(x:str):
+def request_connection_Execptions(x_no_delay:str):
     try:
-        ok_requestObj = requests.get(x, timeout=5)
-        return ok_requestObj
+        requestObj = requests.get(x_no_delay, timeout=5)
+        requestObj.raise_for_status()
+        print("Successfully requested for content and")
+        return requestObj
     except requests.exceptions.RequestException as e:
-        raise Exception(e) 
+        raise Exception(f"Failure requesting content from webpage {e}")
     
-
 def siteResponseObjGenerator(choice:chr):
         match choice:
             case 'A': 
@@ -53,22 +55,17 @@ def siteResponseObjGenerator(choice:chr):
                 r_Debug_F = request_connection_Execptions("lol")
                 return r_Debug_F, "This should output an error"
 
-#Need to display multiple Examples better
-''' Idea for displaying multipe examples:
-    If statement:
-        If list is populated with more than one example, 
-            Make new line for each example 
-            Format as follows: Example 1, Example 2, etc... 
-    Do the same as above for definition also. 
-'''
-def wotd_info(name:BeautifulSoup, word_type:BeautifulSoup, syllabes:BeautifulSoup, definition:str,
-              examples:list[str]):
+
+#Where this is outputted on screen needs to have a link to the full entry on webster with pronuncation and shit.
+def wotd_display(name:str, word_type:str, syllabes:str, definition:str,
+              examples:list[str], link:str):
     wotd_info = {
         'name': name,
         'word type': word_type,
         'syllabes': syllabes,
         'definition': definition,
         'examples': examples,
+        'link': link
 }
     print(f"""
           Name of WOTD: {wotd_info['name']}
@@ -76,11 +73,11 @@ def wotd_info(name:BeautifulSoup, word_type:BeautifulSoup, syllabes:BeautifulSou
           Syllabes: {wotd_info['syllabes']} 
           Definition: {wotd_info['definition']}
           Examples: {(wotd_info['examples'])}
+          Link: {(wotd_info['link'])}
           """
           )
 
 
-#main
 def main(): 
     #rObj_ChosenSite[1](Tuple) for specific site 
     rObj_ChosenSite = siteResponseObjGenerator(Choices())
@@ -89,11 +86,12 @@ def main():
     match(rObj_ChosenSite[1]):
         case "Webster":
             print("Running Webster Function")
-            Site_Webster.webster_WOTD(rObj_ChosenSite[0])
+            Webster.webster_WOTD(rObj_ChosenSite[0])
         case "Oxford":
             print("Run Oxford Function")
-        case "Dictionary.com":
-            print("Run Dictionary.com Function")
+        case "Dictionary":
+            print("Running Dictionary.com Function")
+            Dictionary.dictionary_WOTD(rObj_ChosenSite[0])
         case _: 
             print("[Main - Default case] Error with sitegenerator return  \n")
             
