@@ -52,4 +52,4 @@ def dictionary_WOTD(r_obj:requests.Response):
                  syllabes = "no",
                  definition = wotd[2],
                  examples = "swag",
-                 link = f"ball")    
+                 link = f"yea")    
